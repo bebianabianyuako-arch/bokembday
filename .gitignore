@@ -1,0 +1,18 @@
+# Python compiled files (Sampah file python)
+*.pyc
+__pycache__/
+
+# Virtual Environment (INI PALING PENTING BIAR GAK BERAT)
+env/
+venv/
+.env
+
+# Database lokal (Biasanya tidak di-push)
+db.sqlite3
+
+# Folder media (Kalau ada upload user, biasanya gak di-push)
+media/
+
+# File sampah Mac/Windows
+.DS_Store
+Thumbs.db

@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khayra Tazkiya - 19th Birthday</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="{% static 'music/lagu.mp3' %}" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control-container" onclick="toggleMusic()">
+        <div id="discIcon" class="music-disc">
+            <i class="fas fa-music"></i>
+        </div>
+    </div>
+
+    <div id="openingScreen" class="opening-screen">
+        <div class="opening-content">
+            <h1 class="opening-title">Dear Bokem,</h1>
+            <button id="openBtn" class="btn-gold">
+                <i class="fas fa-play"></i> Open
+            </button>
+        </div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="logo">bokem.</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#wishes">Wishes</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#video-section">Video</a></li> </ul>
+    </nav>
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="{% static 'video/background.mp4' %}" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <img src="{% static 'img/gold-flower.png' %}" class="flower flower-top-left" alt="Flower">
+    <img src="{% static 'img/gold-flower.png' %}" class="flower flower-bottom-right" alt="Flower">
+
+    <div class="content-wrapper">
+        
+        <section id="home">
+            <div class="text-box">
+                <p class="sub-title">Happy Birthday</p>
+                <h1 class="main-title">Khayra Tazkiya</h1>
+                <p class="quote">16 Desember</p>
+                <div style="margin-top: 50px; font-size: 1.5rem; opacity: 0.7; animation: bounce 2s infinite;">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </section>
+
+        <section id="wishes">
+            <div class="floral-cluster">
+                <img src="{% static 'img/peony-gold.png' %}" class="flower-accent peony" alt="">
+                <img src="{% static 'img/lily-gold.png' %}" class="flower-accent lily" alt="">
+            </div>
+
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2;">
+                <h2 class="section-title">A Little Prayer</h2>
+                <div class="card-glass">
+                    <p>
+                        "Selamat ulang tahun yang ke-19, Khayra. <br><br>
+                        Semoga hari-harimu ke depan dipenuhi dengan tawa, cinta, dan keajaiban. 
+                        Jadilah wanita yang kuat, cerdas, dan selalu rendah hati. 
+                        Dunia menunggumu untuk bersinar."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <h2 class="section-title">Foto Bokem</h2>
+                
+                <div class="carousel-container">
+                    
+                    <div class="carousel-slide active">
+                        <img src="{% static 'img/khayra.jpg' %}" alt="Foto 1">
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <img src="{% static 'img/foto1.jpg' %}" alt="Foto 2">
+                    </div>
+
+                    <div class="carousel-slide">
+                        <img src="{% static 'img/foto2.jpg' %}" alt="Foto 3">
+                    </div>
+
+                    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+                    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+                </div>
+
+                <p style="margin-top: 20px; color: #ccc; font-size: 0.9rem;">Tap arrows to see more</p>
+            </div>
+        </section>
+
+        <section id="video-section">
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <h2 class="section-title">Special Video</h2>
+                
+                <div class="video-frame">
+                    <video controls id="memoryVideo">
+                        <source src="{% static 'video/memories.mp4' %}" type="video/mp4">
+                        Browser tidak support video.
+                    </video>
+                </div>
+                
+                <footer>
+                    <p>Created with ❤️ for Khayra</p>
+                </footer>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- VARIABLE DEFINITION ---
+        const openBtn = document.getElementById('openBtn');
+        const openingScreen = document.getElementById('openingScreen');
+        const bgMusic = document.getElementById('bgMusic');
+        const navbar = document.getElementById('navbar');
+        const memoryVideo = document.getElementById('memoryVideo');
+        const discIcon = document.getElementById('discIcon'); // Tombol Disc
+
+        // --- 1. LOGIC BUKA UNDANGAN ---
+        openBtn.addEventListener('click', () => {
+            openingScreen.style.opacity = '0';
+            openingScreen.style.visibility = 'hidden';
+            playMusic(); // Panggil fungsi play music
+        });
+
+        // --- 2. LOGIC TOMBOL MUSIK (DISC) ---
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
+        }
+
+        function playMusic() {
+            bgMusic.play();
+            discIcon.classList.add('playing'); // Tambah class biar muter
+        }
+
+        function pauseMusic() {
+            bgMusic.pause();
+            discIcon.classList.remove('playing'); // Hapus class biar berhenti
+        }
+
+        // --- 3. LOGIC SMART AUDIO (VIDEO VS LAGU) ---
+        // Saat video kenangan di-PLAY -> Lagu background PAUSE & Disc BERHENTI
+        memoryVideo.addEventListener('play', () => {
+            pauseMusic();
+            console.log("Video Play: Lagu Pause");
+        });
+
+        // Saat video kenangan di-PAUSE atau SELESAI -> Lagu background PLAY & Disc MUTER
+        memoryVideo.addEventListener('pause', () => {
+            // Cek biar gak tabrakan sama buffering
+            if (memoryVideo.paused && !memoryVideo.seeking) {
+                playMusic();
+            }
+        });
+        
+        memoryVideo.addEventListener('ended', () => {
+            playMusic();
+        });
+
+        // --- 4. LOGIC NAVBAR & SLIDESHOW (SAMA SEPERTI SEBELUMNYA) ---
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("carousel-slide");
+            if (n > slides.length) {slideIndex = 1}    
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+                slides[i].classList.remove('active');
+            }
+            slides[slideIndex-1].style.display = "block";  
+            slides[slideIndex-1].classList.add('active');
+        }
+    </script>
+</body>
+</html>
