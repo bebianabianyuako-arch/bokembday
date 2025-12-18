@@ -168,14 +168,13 @@
         const openingScreen = document.getElementById('openingScreen');
         const bgMusic = document.getElementById('bgMusic');
         const navbar = document.getElementById('navbar');
-        const memoryVideo = document.getElementById('memoryVideo');
-        const discIcon = document.getElementById('discIcon'); // Tombol Disc
+        const discIcon = document.getElementById('discIcon'); 
 
         // --- 1. LOGIC BUKA UNDANGAN ---
         openBtn.addEventListener('click', () => {
             openingScreen.style.opacity = '0';
             openingScreen.style.visibility = 'hidden';
-            playMusic(); // Panggil fungsi play music
+            playMusic(); 
         });
 
         // --- 2. LOGIC TOMBOL MUSIK (DISC) ---
@@ -189,34 +188,15 @@
 
         function playMusic() {
             bgMusic.play();
-            discIcon.classList.add('playing'); // Tambah class biar muter
+            discIcon.classList.add('playing');
         }
 
         function pauseMusic() {
             bgMusic.pause();
-            discIcon.classList.remove('playing'); // Hapus class biar berhenti
+            discIcon.classList.remove('playing');
         }
 
-        // --- 3. LOGIC SMART AUDIO (VIDEO VS LAGU) ---
-        // Saat video kenangan di-PLAY -> Lagu background PAUSE & Disc BERHENTI
-        memoryVideo.addEventListener('play', () => {
-            pauseMusic();
-            console.log("Video Play: Lagu Pause");
-        });
-
-        // Saat video kenangan di-PAUSE atau SELESAI -> Lagu background PLAY & Disc MUTER
-        memoryVideo.addEventListener('pause', () => {
-            // Cek biar gak tabrakan sama buffering
-            if (memoryVideo.paused && !memoryVideo.seeking) {
-                playMusic();
-            }
-        });
-        
-        memoryVideo.addEventListener('ended', () => {
-            playMusic();
-        });
-
-        // --- 4. LOGIC NAVBAR & SLIDESHOW (SAMA SEPERTI SEBELUMNYA) ---
+        // --- 3. LOGIC NAVBAR ---
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
@@ -225,9 +205,11 @@
             }
         });
 
+        // --- 4. LOGIC SLIDESHOW GALLERY (FIXED) ---
         let slideIndex = 1;
         showSlides(slideIndex);
 
+        // Fungsi yang dipanggil tombol panah HTML
         function changeSlide(n) {
             showSlides(slideIndex += n);
         }
@@ -235,12 +217,18 @@
         function showSlides(n) {
             let i;
             let slides = document.getElementsByClassName("carousel-slide");
+            
+            // Logic muter balik
             if (n > slides.length) {slideIndex = 1}    
             if (n < 1) {slideIndex = slides.length}
+            
+            // Sembunyikan semua slide
             for (i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";  
                 slides[i].classList.remove('active');
             }
+            
+            // Munculkan slide yang dipilih
             slides[slideIndex-1].style.display = "block";  
             slides[slideIndex-1].classList.add('active');
         }
